@@ -16,7 +16,7 @@ def get_lines(file):
     script = re.sub(r'\([^)]*\)', ' ', script)
     script = re.sub(r'\[[^)]*\]', ' ', script)
 
-    # replace all punctuation besides ' with whitespace
+    # replace all punctuation besides ' with whitespace.
     punc = '!"#$%&()*+,-./:;<=>?@[\\]^_`{|}~'
     script = script.translate(str.maketrans(punc, ' '*len(punc)))
 
