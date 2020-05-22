@@ -1,0 +1,261 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous" />
+    <!-- <link rel="stylesheet" href="../static/styles/bootstrap.css"/> -->
+
+    <!-- Iconic (for icons) -->
+    <!-- <link rel="stylesheet" href="../static/styles/open-iconic-bootstrap.css"> -->
+
+    <!-- My CSS -->
+    <link rel="stylesheet" type="text/css" href="../static/styles/styles.css" />
+
+    <!-- jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    <!-- Plotly -->
+    <script src='https://cdn.plot.ly/plotly-latest.min.js'></script>
+
+    <!-- Font Awesome -->
+    <script src="https://kit.fontawesome.com/225bbcd024.js" crossorigin="anonymous"></script>
+
+    <title>Test</title>
+  </head>
+  <body>
+    <div id="main">
+      <div id="bar">
+        <button type="button" class="my-button btn btn-m" onclick="toggleSettings()" id="settings-button">
+              <i class="fas fa-cog"></i>
+        </button>
+      </div>
+
+      <div id="settings" class="container-fluid">
+        <div class="row">
+          <div class="dropdown col">
+            <button class="btn btn-secondary dropdown-toggle my-button" type="button" id="yAxisOptions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              y-Axis Values
+            </button>
+            <div class="dropdown-menu" aria-labelledby="yAxisOptions">
+              <a class="dropdown-item" href="#" onclick="toggleMode(0, 'Total Line Count')">Total Line Count</a>
+              <a class="dropdown-item" href="#" onclick="toggleMode(1, 'Total Word Count')">Total Word Count</a>
+              <a class="dropdown-item" href="#" onclick="toggleMode(2, 'Word Frequency')"> Single Word Frequency</a>
+            </div>
+            <input type="text" onchange="editWord()" class="form-control option word-entry my-button" placeholder="">
+
+          </div>
+        </div>
+        <div class="row">
+          <label class="col"><input id="box" class="option" type="checkbox" onchange="updateGraph()" autocomplete="off"> %</label>
+
+          <div class="dropdown col">
+            <button class="btn btn-secondary dropdown-toggle my-button" type="button" id="seasons" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Seasons
+            </button>
+            <div class="dropdown-menu" aria-labelledby="seasons">
+              <label class="dropdown-item"><input type="checkbox" onchange="toggleSeason(1)" checked autocomplete="off"> Season 1</label>
+              <label class="dropdown-item"><input type="checkbox" onchange="toggleSeason(2)" checked autocomplete="off"> Season 2</label>
+              <label class="dropdown-item"><input type="checkbox" onchange="toggleSeason(3)" autocomplete="off"> Season 3</label>
+              <label class="dropdown-item"><input type="checkbox" onchange="toggleSeason(4)" autocomplete="off"> Season 4</label>
+              <label class="dropdown-item"><input type="checkbox" onchange="toggleSeason(5)" autocomplete="off"> Season 5</label>
+              <label class="dropdown-item"><input type="checkbox" onchange="toggleSeason(6)" autocomplete="off"> Season 6</label>
+              <label class="dropdown-item"><input type="checkbox" onchange="toggleSeason(7)" autocomplete="off"> Season 7</label>
+              <label class="dropdown-item"><input type="checkbox" onchange="toggleSeason(8)" autocomplete="off"> Season 8</label>
+              <label class="dropdown-item"><input type="checkbox" onchange="toggleSeason(9)" autocomplete="off"> Season 9</label>
+            </div>
+          </div>
+          <div class="dropdown col">
+            <button class="btn btn-secondary dropdown-toggle my-button" type="button" id="characters" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Characters
+            </button>
+            <div class="dropdown-menu" aria-labelledby="seasons">
+              <label class="dropdown-item"><input type="checkbox" onchange="toggleSpeaker('Jerry')" checked autocomplete="off"> Jerry</label>
+              <label class="dropdown-item"><input type="checkbox" onchange="toggleSpeaker('George')" checked autocomplete="off"> George</label>
+              <label class="dropdown-item"><input type="checkbox" onchange="toggleSpeaker('Elaine')" checked autocomplete="off"> Elaine</label>
+              <label class="dropdown-item"><input type="checkbox" onchange="toggleSpeaker('Kramer')" checked autocomplete="off"> Kramer</label>
+              <label class="dropdown-item"><input type="checkbox" onchange="toggleSpeaker('Frank')" autocomplete="off"> Frank</label>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="plot-container">
+        <div id="plot"></div>
+      </div>
+      <div id="footer">
+        <a href="https://abcoda.github.io/home">abcoda.github.io/home</a>
+      </div>
+    </div>
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <!-- <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script> -->
+  </body>
+
+  <script>
+    var mode = [false,true,false];
+    var seasons = [true,true,false,false,false,false,false,false,false];
+    var speakers = ['Jerry','George','Elaine','Kramer'];
+    var word = 'coffee';
+
+    window.onload = function() {
+      document.querySelector(".word-entry").value = word;
+      // document.querySelector("#settings").style.display = 'none';
+      toggleMode(1,'Total Word Count')
+      resize();
+    }
+    window.onresize = function() {
+      resize()
+    }
+
+    function resize() {
+      document.querySelector("#plot-container").style.top = document.querySelector("#bar").offsetHeight + 'px';
+      // document.querySelector("#settings-button").style.height = document.querySelector("#bar").offsetHeight + 'px'
+      document.querySelector("#settings-button").style.height = `calc(${document.querySelector("#bar").offsetHeight + 'px'} - 6px)`
+
+      document.querySelector("#settings-button").style.width = `calc(${document.querySelector("#bar").offsetHeight + 'px'} - 6px)`
+      updateGraph()
+    }
+
+    function editWord() {
+      word = document.querySelector(".word-entry").value;
+      updateGraph();
+    }
+
+    function toggleSeason(n){
+      seasons[n-1] = !seasons[n-1]
+      updateGraph()
+    }
+
+
+
+    function toggleSpeaker(speaker) {
+      const index = speakers.indexOf(speaker);
+      if (index > -1) {
+        speakers.splice(index, 1);
+      }
+      else {
+        speakers.push(speaker)
+      }
+      updateGraph()
+    }
+
+    function toggleMode(setting,name) {
+      for (let i = 0; i < 3; i++) {
+        if (i == setting) {
+          mode[i] = true;
+        }
+        else {
+          mode[i] = false;
+        }
+      }
+      if (setting == 2) {
+        $(".word-entry").show(300);
+      }
+      else {
+        $(".word-entry").hide(300);
+      }
+
+      // document.querySelector(".word-entry").style.display = (setting == 2 ? 'inline' : 'none')
+      document.querySelector("#yAxisOptions").innerHTML = name
+      updateGraph()
+    }
+
+    function toggleSettings(){
+      $("#settings").toggle(500)
+    }
+
+    function updateGraph(){
+      // Initialize new request
+      const request = new XMLHttpRequest();
+      request.open('POST', '/plot');
+
+      // Callback function for when request completes
+      request.onload = () => {
+          const data = JSON.parse(request.responseText);
+
+          if (data.success) {
+              xVals = []
+              xNames = []
+              for (let i = 0; i < data.xLabels.length; i++) {
+                xVals.push(i)
+                xNames.push('S' + data.xLabels[i][0] + 'E' + data.xLabels[i][1])
+              }
+
+              traces = []
+              for (let i = 0; i < data.data.length; i++) {
+                traces.push({
+                  x: xNames,
+                  y: data.data[i].values,
+                  name: data.data[i].name,
+                  // type: 'scatter',
+                  mode:'lines+markers',
+                  line: {
+                    width:0.5,
+                    dash:'solid'
+                  },
+                  marker: {
+                    size:4
+                  }
+                })
+              }
+
+              traces.forEach(function(trace) {
+                if (trace.name == 'Everyone') {
+                  trace.visible = 'legendonly'
+                }
+              })
+
+
+              layout = {
+                legend: {
+                  "orientation": "h",
+                  x: 0.5,
+                  xanchor: 'center',
+                  yanchor:'bottom',
+                  y: 1
+                },
+                xaxis: {
+                  tickfont: {
+                    // family: 'Arial, sans-serif',
+                    size: 9,
+                    color: '#555'
+                  }
+                },
+                yaxis: {
+                  title: (mode[0] ? "LINE COUNT" : (mode[1] ? "WORD COUNT" : `FREQUENCY OF  '${word}'`)),
+                  titlefont: {
+                    family: 'Arial, sans-serif',
+                    size: 12,
+                    color: '#555'
+                  },
+                  tickfont: {
+                    // family: 'Arial, sans-serif',
+                    size: 9,
+                    color: '#555'
+                  }
+                }
+              }
+
+              Plotly.newPlot('plot',traces,layout)
+          }
+          else {
+              document.querySelector('#plot').innerHTML = 'There was an error.';
+          }
+      }
+
+      const dat = new FormData();
+      dat.append('speakers', JSON.stringify(speakers));
+      dat.append('word_frequency', mode[2]);
+      dat.append('total_line_count', mode[0]);
+      dat.append('total_word_count', mode[1]);
+      dat.append('seasons',JSON.stringify(seasons));
+      dat.append('word',word);
+      dat.append('percent',document.querySelector('#box').checked);
+      request.send(dat)
+    }
+  </script>
+</html>
