@@ -8,11 +8,11 @@ html, body {
   height:100%;
 }
 
-#plot-container {
+#my-plot-container {
   width:100%;
   height:calc(90%);
-  position:absolute;
-
+  position:fixed;
+  bottom: 4%;
 }
 
 #main {
@@ -68,22 +68,81 @@ html, body {
   border:2px solid rgb(178,209,242);
   background-color:#fafafa  ;
   position:fixed;
+  margin-left:4px;
+  margin-top:4px;
+  /* margin-right:auto; */
+  /* left:3px; */
+  /* right:3px; */
   top:6%;
   z-index:1;
-  margin:4px;
+  /* margin:4px; */
   opacity:0.95;
   padding:3px;
 }
 
+.setting {
+  /* border:1px solid #737c84; */
+  /* border-radius:3px; */
+  margin:10px;
+
+}
+
+.season {
+  padding:3px;
+  /* margin-bottom:0.5px; */
+  /* border-top:1px solid #737c8450; */
+  /* background-color:white; */
+  color:#333;
+  text-align:center;
+  cursor:pointer;
+  border:0.2px solid #cccccc66
+}
+
+
+
+.setting-label {
+  background-color: #737c84;
+  border-top-left-radius:6px;
+  border-top-right-radius:6px;
+  width:100%;
+  color: #e9eaeb;
+  padding:5px;
+  text-align:center;
+}
+
+.setting-content {
+  display:flex;
+  align-items:stretch;
+  justify-content:space-between;
+  width:100%;
+  margin-left:auto;
+  margin-right:auto;
+  overflow:hidden;
+  border:0.5px solid #737c84;
+  border-bottom-left-radius:6px;
+  border-bottom-right-radius:6px;
+}
+
+#mode-list{
+  display:flex;
+  flex-flow:column;
+  align-items:stretch;
+  justify-content:space-between;
+}
 
 .my-button {
   font-size:min(16px, 2vw);
 }
 
-.word-entry {
-  max-width:min(20%, 120px);
+#word-entry-row {
+  /* max-width:min(20%, 120px); */
   display:none;
-  margin-left:0
+  /* margin-left:0 */
+}
+
+.word-entry {
+  /* width:10px; */
+  border-radius:4px;
 }
 
 #box {
@@ -101,4 +160,23 @@ html, body {
   display:flex;
   align-items:center;
   justify-content:center;
+}
+
+#exit-button {
+  position:absolute;
+  top:0;
+  right:0;
+  color:#737c84;
+  padding:6px;
+  z-index:1;
+  font-size:20px;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  background-color:rgb(178,209,242);
+  border-left:1px solid #fafafa;
+  border-bottom:1px solid #fafafa;
+  cursor:pointer;
+  border-bottom-left-radius:3px;
+
 }
