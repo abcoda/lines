@@ -1,322 +1,330 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous" />
-    <!-- <link rel="stylesheet" href="../static/styles/bootstrap.css"/> -->
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <!-- My CSS -->
-    <link rel="stylesheet" type="text/css" href="../static/styles/styles.css" />
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+    integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous" />
+  <!-- <link rel="stylesheet" href="../static/styles/bootstrap.css"/> -->
 
-    <!-- jQuery -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <!-- My CSS -->
+  <link rel="stylesheet" type="text/css" href="../static/styles/styles.css" />
 
-    <!-- Plotly -->
-    <script src='https://cdn.plot.ly/plotly-latest.min.js'></script>
+  <!-- jQuery -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
-    <!-- Font Awesome -->
-    <script src="https://kit.fontawesome.com/225bbcd024.js" crossorigin="anonymous"></script>
+  <!-- Plotly -->
+  <script src='https://cdn.plot.ly/plotly-latest.min.js'></script>
 
-    <title>Test</title>
-  </head>
-  <body>
-    <div id="main">
-      <div id="bar">
-        <button type="button" class="my-button btn btn-m" onclick="toggleSettings()" id="settings-button">
-              <i class="fas fa-cog"></i>
-        </button>
+  <!-- Font Awesome -->
+  <script src="https://kit.fontawesome.com/225bbcd024.js" crossorigin="anonymous"></script>
+
+  <title>Test1</title>
+</head>
+
+<body>
+  <div id="main">
+    <div id="bar">
+      <button type="button" class="my-button btn btn-m" onclick="toggleSettings()" id="settings-button">
+        <i class="fas fa-cog"></i>
+      </button>
+    </div>
+
+    <div id="my-plot-container">
+      <div id="plot"></div>
+    </div>
+
+    <div id="settings" class="container-fluid">
+      <div onclick="toggleSettings()" id="exit-button">
+        <i class="fas fa-times"></i>
       </div>
 
-      <div id="my-plot-container">
-        <div id="plot"></div>
-      </div>
+      <div class="row">
+        <div class="col setting">
+          <div class="setting-label">
+            Plot Mode
+          </div>
+          <div id="mode-list" class="setting-content">
+            <div class="season col" onclick="toggleMode(0, 'Total Line Count')">Total Line Count</div>
+            <div class="season col" onclick="toggleMode(1, 'Total Word Count')">Total Word Count</div>
+            <div class="season col" onclick="toggleMode(2, 'Word Frequency')"> Single Word Frequency</div>
+            <div class="season col" id="word-entry-row">
+              <input type="text" onchange="editWord()" class="col word-entry">
+            </div>
+          </div>
 
-      <div id="settings" class="container-fluid">
-        <div onclick="toggleSettings()" id="exit-button">
-              <i class="fas fa-times"></i>
         </div>
 
-        <div class="row">
-          <div class="col setting">
-            <div class="setting-label">
-              Plot Mode
-            </div>
-            <div id="mode-list" class="setting-content">
-              <div class="season col" onclick="toggleMode(0, 'Total Line Count')">Total Line Count</div>
-              <div class="season col" onclick="toggleMode(1, 'Total Word Count')">Total Word Count</div>
-              <div class="season col" onclick="toggleMode(2, 'Word Frequency')"> Single Word Frequency</div>
-              <div class="season col" id="word-entry-row">
-                <input type="text" onchange="editWord()" class="col word-entry">
-              </div>
-            </div>
-
+        <div class="col setting">
+          <div class="setting-label">
+            Plot Settings
           </div>
-
-          <div class="col setting">
-            <div class="setting-label">
-              Plot Settings
-            </div>
-            <div id="y" class="setting-content">
-              <div class="season col" onclick="togglePercent(this)">Use % for y-Axis</div>
-            </div>
-          </div>
-          <!-- <label class="col"><input id="box" class="option" type="checkbox" onchange="updateGraph()" autocomplete="off"> %</label> -->
-
-          <div class="col setting">
-            <div class="setting-label">
-              Seasons
-            </div>
-            <div id="seasons-list" class="setting-content row">
-              <div class="season col" onclick="toggleSeason(1)">1</div>
-              <div class="season col" onclick="toggleSeason(2)">2</div>
-              <div class="season col" onclick="toggleSeason(3)">3</div>
-              <div class="season col" onclick="toggleSeason(4)">4</div>
-              <div class="season col" onclick="toggleSeason(5)">5</div>
-              <div class="season col" onclick="toggleSeason(6)">6</div>
-              <div class="season col" onclick="toggleSeason(7)">7</div>
-              <div class="season col" onclick="toggleSeason(8)">8</div>
-              <div class="season col" onclick="toggleSeason(9)">9</div>
-            </div>
-          </div>
-
-          <div class="col setting">
-            <div class="setting-label">
-              Characters
-            </div>
-            <div id="characters-list" class="setting-content row">
-              <div class="season col" onclick="toggleSpeaker('Jerry',1)">Jerry</div>
-              <div class="season col" onclick="toggleSpeaker('George',2)">George</div>
-              <div class="season col" onclick="toggleSpeaker('Elaine',3)">Elaine</div>
-              <div class="season col" onclick="toggleSpeaker('Kramer',4)">Kramer</div>
-              <div class="season col" onclick="toggleSpeaker('Frank',5)">Frank</div>
-              <div class="season col" onclick="toggleSpeaker('Estelle',6)">Estelle</div>
-              <div class="season col" onclick="toggleSpeaker('Morty',7)">Morty</div>
-              <div class="season col" onclick="toggleSpeaker('Helen',8)">Helen</div>
-            </div>
+          <div id="y" class="setting-content">
+            <div class="season col" onclick="togglePercent(this)">Use % for y-Axis</div>
           </div>
         </div>
-      </div>
+        <!-- <label class="col"><input id="box" class="option" type="checkbox" onchange="updateGraph()" autocomplete="off"> %</label> -->
 
-      <div id="footer">
-        <a href="https://abcoda.github.io/home">abcoda.github.io/home</a>
+        <div class="col setting">
+          <div class="setting-label">
+            Seasons
+          </div>
+          <div id="seasons-list" class="setting-content row">
+            <div class="season col" onclick="toggleSeason(1)">1</div>
+            <div class="season col" onclick="toggleSeason(2)">2</div>
+            <div class="season col" onclick="toggleSeason(3)">3</div>
+            <div class="season col" onclick="toggleSeason(4)">4</div>
+            <div class="season col" onclick="toggleSeason(5)">5</div>
+            <div class="season col" onclick="toggleSeason(6)">6</div>
+            <div class="season col" onclick="toggleSeason(7)">7</div>
+            <div class="season col" onclick="toggleSeason(8)">8</div>
+            <div class="season col" onclick="toggleSeason(9)">9</div>
+          </div>
+        </div>
+
+        <div class="col setting">
+          <div class="setting-label">
+            Characters
+          </div>
+          <div id="characters-list" class="setting-content row">
+            <div class="season col" onclick="toggleSpeaker('Jerry',1)">Jerry</div>
+            <div class="season col" onclick="toggleSpeaker('George',2)">George</div>
+            <div class="season col" onclick="toggleSpeaker('Elaine',3)">Elaine</div>
+            <div class="season col" onclick="toggleSpeaker('Kramer',4)">Kramer</div>
+            <div class="season col" onclick="toggleSpeaker('Frank',5)">Frank</div>
+            <div class="season col" onclick="toggleSpeaker('Estelle',6)">Estelle</div>
+            <div class="season col" onclick="toggleSpeaker('Morty',7)">Morty</div>
+            <div class="season col" onclick="toggleSpeaker('Helen',8)">Helen</div>
+          </div>
+        </div>
       </div>
     </div>
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <!-- <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script> -->
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-    <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script> -->
-  </body>
 
-  <script>
-    var mode = [false,true,false];
-    var seasons = [false,false,false,false,false,false,false,false,false];
-    var speakers = [];
-    var word = 'coffee';
-    var settingsOn = false;
-    var percent = false;
+    <div id="footer">
+      <a href="https://abcoda.github.io/home">abcoda.github.io/home</a>
+    </div>
+  </div>
+  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+  <!-- <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script> -->
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+    integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+    crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+    integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+    crossorigin="anonymous"></script>
+  <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script> -->
+</body>
 
-    window.onload = function() {
-      document.querySelector(".word-entry").value = word;
-      document.querySelector("#settings").style.display = 'none';
-      // toggleSettings();
-      toggleMode(1,'Total Word Count')
-      toggleSeason(1);
-      toggleSeason(2);
-      toggleSpeaker("Jerry",1)
-      toggleSpeaker("George",2)
-      toggleSpeaker("Elaine",3)
-      toggleSpeaker("Kramer",4)
-      resize();
+<script>
+  var mode = [false, true, false];
+  var seasons = [false, false, false, false, false, false, false, false, false];
+  var speakers = [];
+  var word = 'coffee';
+  var settingsOn = false;
+  var percent = false;
+
+  window.onload = function () {
+    document.querySelector(".word-entry").value = word;
+    document.querySelector("#settings").style.display = 'none';
+    // toggleSettings();
+    toggleMode(1, 'Total Word Count')
+    toggleSeason(1);
+    toggleSeason(2);
+    toggleSpeaker("Jerry", 1)
+    toggleSpeaker("George", 2)
+    toggleSpeaker("Elaine", 3)
+    toggleSpeaker("Kramer", 4)
+    resize();
+  }
+  window.onresize = function () {
+    resize()
+  }
+
+  function resize() {
+    // document.querySelector("#my-plot-container").style.top = document.querySelector("#bar").offsetHeight + 'px';
+    // document.querySelector("#settings-button").style.height = document.querySelector("#bar").offsetHeight + 'px'
+    document.querySelector("#settings-button").style.height = `calc(${document.querySelector("#bar").offsetHeight + 'px'} - 6px)`
+    document.querySelector("#settings-button").style.width = `calc(${document.querySelector("#bar").offsetHeight + 'px'} - 6px)`
+    document.querySelector("#my-plot-container").style.visibility = 'hidden'
+    document.querySelector("#my-plot-container").style.height = `calc(90% - ${document.querySelector("#settings").offsetHeight + 'px'})`
+    updateGraph(() => {
+      document.querySelector("#my-plot-container").style.visibility = 'visible'
+    });
+    // updateGraph()
+  }
+
+  function editWord() {
+    word = document.querySelector(".word-entry").value;
+    updateGraph();
+  }
+
+  function toggleSeason(n) {
+    element = document.querySelector("#seasons-list").children[n - 1]
+    toggleColor(element)
+    seasons[n - 1] = !seasons[n - 1]
+    updateGraph()
+  }
+
+  function toggleColor(element) {
+    if (element.style.backgroundColor == 'rgb(225, 234, 250)') {
+      element.style.backgroundColor = '#fafafa'
     }
-    window.onresize = function() {
-      resize()
+    else {
+      element.style.backgroundColor = '#e1eafa'
     }
+  }
 
-    function resize() {
-      // document.querySelector("#my-plot-container").style.top = document.querySelector("#bar").offsetHeight + 'px';
-      // document.querySelector("#settings-button").style.height = document.querySelector("#bar").offsetHeight + 'px'
-      document.querySelector("#settings-button").style.height = `calc(${document.querySelector("#bar").offsetHeight + 'px'} - 6px)`
-      document.querySelector("#settings-button").style.width = `calc(${document.querySelector("#bar").offsetHeight + 'px'} - 6px)`
+  function toggleSpeaker(speaker, n) {
+    element = document.querySelector("#characters-list").children[n - 1]
+    toggleColor(element)
+    const index = speakers.indexOf(speaker);
+    if (index > -1) {
+      speakers.splice(index, 1);
+    }
+    else {
+      speakers.push(speaker)
+    }
+    updateGraph()
+  }
+
+  function toggleMode(setting, name) {
+    for (let i = 0; i < 3; i++) {
+      element = document.querySelector("#mode-list").children[i]
+      if (i == setting) {
+        mode[i] = true;
+        element.style.backgroundColor = '#e1eafa'
+      }
+      else {
+        mode[i] = false;
+        element.style.backgroundColor = '#fafafa'
+
+      }
+    }
+    if (setting == 2) {
+      $("#word-entry-row").show(300);
+    }
+    else {
+      $("#word-entry-row").hide(300);
+    }
+    updateGraph()
+  }
+
+  function togglePercent(element) {
+    percent = !percent;
+    toggleColor(element)
+    updateGraph();
+  }
+
+  function toggleSettings() {
+    // $("#settings").toggle(500,'swing', () => {
+    //   document.querySelector("#my-plot-container").style.top = `calc(${document.querySelector("#settings").offsetHeight + 'px'})`
+    //   updateGraph();
+    // })
+    $("#settings").toggle(500, 'swing', () => {
       document.querySelector("#my-plot-container").style.visibility = 'hidden'
       document.querySelector("#my-plot-container").style.height = `calc(90% - ${document.querySelector("#settings").offsetHeight + 'px'})`
       updateGraph(() => {
         document.querySelector("#my-plot-container").style.visibility = 'visible'
       });
-      // updateGraph()
-    }
+      // document.querySelector("#my-plot-container").style.visibility = 'visible'
+    })
+  }
 
-    function editWord() {
-      word = document.querySelector(".word-entry").value;
-      updateGraph();
-    }
+  function updateGraph(callback) {
+    // Initialize new request
+    const request = new XMLHttpRequest();
+    request.open('POST', '/plot');
 
-    function toggleSeason(n) {
-      element = document.querySelector("#seasons-list").children[n-1]
-      toggleColor(element)
-      seasons[n-1] = !seasons[n-1]
-      updateGraph()
-    }
+    // Callback function for when request completes
+    request.onload = () => {
+      const data = JSON.parse(request.responseText);
 
-    function toggleColor(element) {
-      if (element.style.backgroundColor == 'rgb(225, 234, 250)'){
-        element.style.backgroundColor = '#fafafa'
-      }
-      else {
-        element.style.backgroundColor = '#e1eafa'
-      }
-    }
-
-    function toggleSpeaker(speaker,n) {
-      element = document.querySelector("#characters-list").children[n-1]
-      toggleColor(element)
-      const index = speakers.indexOf(speaker);
-      if (index > -1) {
-        speakers.splice(index, 1);
-      }
-      else {
-        speakers.push(speaker)
-      }
-      updateGraph()
-    }
-
-    function toggleMode(setting,name) {
-      for (let i = 0; i < 3; i++) {
-        element = document.querySelector("#mode-list").children[i]
-        if (i == setting) {
-          mode[i] = true;
-          element.style.backgroundColor = '#e1eafa'
+      if (data.success) {
+        xVals = []
+        xNames = []
+        for (let i = 0; i < data.xLabels.length; i++) {
+          xVals.push(i)
+          xNames.push('S' + data.xLabels[i][0] + 'E' + data.xLabels[i][1])
         }
-        else {
-          mode[i] = false;
-          element.style.backgroundColor = '#fafafa'
 
+        traces = []
+        for (let i = 0; i < data.data.length; i++) {
+          traces.push({
+            x: xNames,
+            y: data.data[i].values,
+            name: data.data[i].name,
+            // type: 'scatter',
+            mode: 'lines+markers',
+            line: {
+              width: 0.5,
+              dash: 'solid'
+            },
+            marker: {
+              size: 4
+            }
+          })
+        }
+
+        traces.forEach(function (trace) {
+          if (trace.name == 'Everyone') {
+            trace.visible = 'legendonly'
+          }
+        })
+
+
+        layout = {
+          legend: {
+            "orientation": "h",
+            x: 0.5,
+            xanchor: 'center',
+            yanchor: 'bottom',
+            y: 1
+          },
+          xaxis: {
+            tickfont: {
+              // family: 'Arial, sans-serif',
+              size: 9,
+              color: '#555'
+            }
+          },
+          yaxis: {
+            title: (mode[0] ? "LINE COUNT" : (mode[1] ? "WORD COUNT" : `FREQUENCY OF  '${word}'`)) + (percent ? ' (%)' : ''),
+            titlefont: {
+              family: 'Arial, sans-serif',
+              size: 12,
+              color: '#555'
+            },
+            tickfont: {
+              // family: 'Arial, sans-serif',
+              size: 9,
+              color: '#555'
+            }
+          }
+        }
+
+        Plotly.newPlot('plot', traces, layout)
+        if (callback) {
+          callback()
         }
       }
-      if (setting == 2) {
-        $("#word-entry-row").show(300);
-      }
       else {
-        $("#word-entry-row").hide(300);
+        document.querySelector('#plot').innerHTML = 'There was an error.';
       }
-      updateGraph()
     }
 
-    function togglePercent(element){
-      percent = !percent;
-      toggleColor(element)
-      updateGraph();
-    }
+    const dat = new FormData();
+    dat.append('speakers', JSON.stringify(speakers));
+    dat.append('word_frequency', mode[2]);
+    dat.append('total_line_count', mode[0]);
+    dat.append('total_word_count', mode[1]);
+    dat.append('seasons', JSON.stringify(seasons));
+    dat.append('word', word);
+    dat.append('percent', percent);
+    request.send(dat)
+  }
+</script>
 
-    function toggleSettings(){
-      // $("#settings").toggle(500,'swing', () => {
-      //   document.querySelector("#my-plot-container").style.top = `calc(${document.querySelector("#settings").offsetHeight + 'px'})`
-      //   updateGraph();
-      // })
-      $("#settings").toggle(500,'swing', () => {
-        document.querySelector("#my-plot-container").style.visibility = 'hidden'
-        document.querySelector("#my-plot-container").style.height = `calc(90% - ${document.querySelector("#settings").offsetHeight + 'px'})`
-        updateGraph(() => {
-          document.querySelector("#my-plot-container").style.visibility = 'visible'
-        });
-        // document.querySelector("#my-plot-container").style.visibility = 'visible'
-      })
-    }
-
-    function updateGraph(callback){
-      // Initialize new request
-      const request = new XMLHttpRequest();
-      request.open('POST', '/plot');
-
-      // Callback function for when request completes
-      request.onload = () => {
-          const data = JSON.parse(request.responseText);
-
-          if (data.success) {
-              xVals = []
-              xNames = []
-              for (let i = 0; i < data.xLabels.length; i++) {
-                xVals.push(i)
-                xNames.push('S' + data.xLabels[i][0] + 'E' + data.xLabels[i][1])
-              }
-
-              traces = []
-              for (let i = 0; i < data.data.length; i++) {
-                traces.push({
-                  x: xNames,
-                  y: data.data[i].values,
-                  name: data.data[i].name,
-                  // type: 'scatter',
-                  mode:'lines+markers',
-                  line: {
-                    width:0.5,
-                    dash:'solid'
-                  },
-                  marker: {
-                    size:4
-                  }
-                })
-              }
-
-              traces.forEach(function(trace) {
-                if (trace.name == 'Everyone') {
-                  trace.visible = 'legendonly'
-                }
-              })
-
-
-              layout = {
-                legend: {
-                  "orientation": "h",
-                  x: 0.5,
-                  xanchor: 'center',
-                  yanchor:'bottom',
-                  y: 1
-                },
-                xaxis: {
-                  tickfont: {
-                    // family: 'Arial, sans-serif',
-                    size: 9,
-                    color: '#555'
-                  }
-                },
-                yaxis: {
-                  title: (mode[0] ? "LINE COUNT" : (mode[1] ? "WORD COUNT" : `FREQUENCY OF  '${word}'`)) + (percent ? ' (%)' : ''),
-                  titlefont: {
-                    family: 'Arial, sans-serif',
-                    size: 12,
-                    color: '#555'
-                  },
-                  tickfont: {
-                    // family: 'Arial, sans-serif',
-                    size: 9,
-                    color: '#555'
-                  }
-                }
-              }
-
-              Plotly.newPlot('plot',traces,layout)
-              if (callback) {
-                callback()
-              }
-          }
-          else {
-              document.querySelector('#plot').innerHTML = 'There was an error.';
-          }
-      }
-
-      const dat = new FormData();
-      dat.append('speakers', JSON.stringify(speakers));
-      dat.append('word_frequency', mode[2]);
-      dat.append('total_line_count', mode[0]);
-      dat.append('total_word_count', mode[1]);
-      dat.append('seasons',JSON.stringify(seasons));
-      dat.append('word',word);
-      dat.append('percent',percent);
-      request.send(dat)
-    }
-  </script>
 </html>
